@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
     formData.append("avatar", file);
     formData.append("email", email);
 
-    const response = await fetch("http://localhost:3000/avatar-upload", {
+    const response = await fetch("https://twoj-backend.onrender.com/avatar-upload", {
       method: "POST",
       body: formData
     });
