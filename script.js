@@ -24,13 +24,13 @@ document.addEventListener("DOMContentLoaded", () => {
       }
   
       try {
-        const response = await https://moj-backend-9e7n.onrender.com/login", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            email: enteredEmail,
-            password: enteredPassword
-          })
+    const response = await fetch("https://moj-backend-9e7n.onrender.com/login", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    email: enteredEmail,
+    password: enteredPassword
+  })
         });
   
         const result = await response.json();
