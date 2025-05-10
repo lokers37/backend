@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Logowanie</title>
+  <link rel="stylesheet" href="style2.css"/>
+</head>
+<body>
+    <button class="register-top-btn" onclick="window.location.href='register.html'">Załóż konto</button>
+  <div class="container">
+    <h1>Logowanie</h1>
+
+    <!-- Formularz logowania -->
+    <div class="login-form">
+      <input type="email" id="email" placeholder="Wprowadź e-mail" required />
+      <input type="password" id="password" placeholder="Wprowadź hasło" required />
+      <div class="buttons-wrapper">
+        <button id="loginButton">Zaloguj się</button>
+      </div>
+      
+      <p style="text-align: center; margin-top: 10px;">
+        <a href="forgot-password.html">Nie pamiętasz hasła?</a>
+      </p>
+      
+    </div>
+
+    <!-- Powitanie, menu i timer -->
+    <div id="greeting" class="hidden"></div>
+    <div id="menu" class="hidden">
+        <!-- inne elementy menu, jeśli są -->
+        <button id="logoutButton">Wyloguj</button>
+      </div>
+    <div id="menu" class="hidden">
+      <ul>
+        <li><a href="#">Opcja 1</a></li>
+      </ul>
+    </div>
+    <div id="timer" class="hidden"></div>
+    <button id="logoutButton" class="hidden">Wyloguj się</button>
+  </div>
+
+  <script src="script.js"></script>
+ <!-- <script src="main.js"></script> -->
+
+</body>
+</html>

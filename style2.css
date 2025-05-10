@@ -1,0 +1,125 @@
+/* Resetowanie domyślnych stylów */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  /* Ogólny styl */
+  body {
+    font-family: 'Arial', sans-serif;
+    background-color: #C0C0C0;
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 20px;
+  }
+  
+  .container {
+    background-color: #FFFFFF;
+    border: 2px solid #000000;
+    border-radius: 4px;
+    padding: 20px;
+    width: 300px;
+    box-shadow: 4px 4px 0 #000000;
+  }
+  
+  /* Nagłówek */
+  h1 {
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  /* Pola formularza */
+  .login-form input {
+    width: 100%;
+    padding: 5px;
+    margin: 10px 0;
+    border: 2px solid #000000;
+    border-radius: 4px;
+    background-color: #E0E0E0;
+    font-size: 14px;
+  }
+  
+  .login-form input:focus {
+    background-color: #FFFFFF;
+    border-color: #0000FF;
+    outline: none;
+  }
+  
+  /* Wrapper na przyciski */
+  .buttons-wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  button {
+    background-color: #C0C0C0;
+    color: black;
+    padding: 10px;
+    border: 2px solid #000000;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 14px;
+    margin-top: 10px;
+    cursor: pointer;
+    box-shadow: 2px 2px 0 #000000;
+    transition: background-color 0.3s;
+    flex: 1;
+  }
+  
+  button:hover {
+    background-color: #A0A0A0;
+  }
+  
+  button:active {
+    background-color: #808080;
+  }
+  
+  /* Menu */
+  #menu ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+  }
+  
+  #menu ul li {
+    margin: 10px 0;
+  }
+  
+  #menu ul li a {
+    text-decoration: none;
+    color: #0000FF;
+    font-weight: bold;
+  }
+  
+  #menu ul li a:hover {
+    color: #00008B;
+  }
+  
+  /* Ukrywanie */
+  .hidden {
+    display: none;
+  }
+
+  .register-top-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    padding: 10px 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 1000;
+  }
+  
+  .register-top-btn:hover {
+    background-color: #45a049;
+  }
