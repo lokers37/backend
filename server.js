@@ -1,112 +1,224 @@
-const express = require('express');
-const bcrypt = require('bcrypt');
-const fs = require('fs');
-const path = require('path');
-const cors = require('cors');
-const multer = require('multer');
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Panel klienta</title>
+  <link rel="stylesheet" href="style2.css" />
+  <style>
+    :root {
+      --bg: #f7f9fb;
+      --text: #2c3e50;
+      --card: #ffffff;
+      --accent: #007bff;
+    }
 
-const app = express();
-const PORT = 3000;
+    body.dark {
+      --bg: #121212;
+      --text: #e0e0e0;
+      --card: #1e1e1e;
+      --accent: #0d6efd;
+    }
 
-app.use(cors());
-app.use(express.json());
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+    }
 
-// folder publiczny do serwowania plików graficznych
-app.use('/avatars', express.static(path.join(__dirname, 'public/avatars')));
+    .panel {
+      background: var(--card);
+      padding: 30px;
+      margin: 40px 20px;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      max-width: 600px;
+      width: 100%;
+    }
 
-const USERS_FILE = path.join(__dirname, 'users.json');
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
 
-// Multer setup
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, 'public/avatars');
-  },
-  filename: function (req, file, cb) {
-    const ext = path.extname(file.originalname);
-    const filename = Date.now() + '-' + Math.round(Math.random() * 1e9) + ext;
-    cb(null, filename);
-  }
-});
-const upload = multer({ storage });
+    .avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: #ccc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      font-weight: bold;
+      color: white;
+    }
 
-// Funkcje użytkowników
-function readUsers() {
-  if (!fs.existsSync(USERS_FILE)) return [];
-  const data = fs.readFileSync(USERS_FILE, 'utf8');
-  return JSON.parse(data);
-}
+    h1 {
+      margin: 0;
+    }
 
-function writeUsers(users) {
-  fs.writeFileSync(USERS_FILE, JSON.stringify(users, null, 2));
-}
+    .tabs {
+      display: flex;
+      margin-top: 25px;
+      gap: 10px;
+    }
 
-// Rejestracja
-app.post('/register', async (req, res) => {
-  const { name, surname, phone, email, password } = req.body;
-  if (!name || !surname || !phone || !email || !password) {
-    return res.status(400).json({ error: 'Wszystkie pola są wymagane.' });
-  }
+    .tab {
+      padding: 10px 15px;
+      border: 1px solid var(--accent);
+      border-radius: 8px;
+      cursor: pointer;
+      color: var(--accent);
+      background: transparent;
+    }
 
-  const users = readUsers();
-  const userExists = users.find(u => u.email === email);
-  if (userExists) {
-    return res.status(409).json({ error: 'Taki użytkownik już istnieje.' });
-  }
+    .tab.active {
+      background: var(--accent);
+      color: white;
+    }
 
-  const hashedPassword = await bcrypt.hash(password, 10);
-  users.push({ name, surname, phone, email, password: hashedPassword, avatar: null });
-  writeUsers(users);
+    .section {
+      margin-top: 25px;
+      display: none;
+    }
 
-  res.status(201).json({ message: 'Użytkownik zapisany.' });
-});
+    .section.active {
+      display: block;
+    }
 
-// Logowanie
-app.post('/login', async (req, res) => {
-  const { email, password } = req.body;
-  const users = readUsers();
-  const user = users.find(u => u.email === email);
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: 600;
+    }
 
-  if (!user) return res.status(404).json({ error: 'Użytkownik nie istnieje.' });
-  const match = await bcrypt.compare(password, user.password);
-  if (!match) return res.status(401).json({ error: 'Nieprawidłowe hasło.' });
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      background: white;
+      color: black;
+    }
 
-  res.json({
-    message: 'Zalogowano pomyślnie.',
-    name: user.name,
-    surname: user.surname,
-    phone: user.phone,
-    email: user.email,
-    avatar: user.avatar
-  });
-});
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: var(--accent);
+      border: none;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+    }
 
-// Zmiana hasła
-app.post('/change-password', async (req, res) => {
-  const { email, newPassword } = req.body;
-  const users = readUsers();
-  const user = users.find(u => u.email === email);
-  if (!user) return res.status(404).json({ error: 'Użytkownik nie istnieje.' });
+    button.logout {
+      background: #dc3545;
+    }
 
-  user.password = await bcrypt.hash(newPassword, 10);
-  writeUsers(users);
-  res.json({ message: 'Hasło zmienione.' });
-});
+    .theme-toggle {
+      margin-top: 30px;
+      text-align: center;
+    }
 
-// Upload avatara
-app.post('/avatar-upload', upload.single('avatar'), (req, res) => {
-  const { email } = req.body;
-  if (!req.file || !email) return res.status(400).json({ error: 'Brakuje pliku lub e-maila.' });
+    .theme-toggle button {
+      background: transparent;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+    }
 
-  const users = readUsers();
-  const user = users.find(u => u.email === email);
-  if (!user) return res.status(404).json({ error: 'Użytkownik nie istnieje.' });
+    ul {
+      margin-top: 15px;
+      padding-left: 20px;
+    }
 
-  user.avatar = req.file.filename;
-  writeUsers(users);
+    @media (max-width: 480px) {
+      .avatar {
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+      }
 
-  res.json({ message: 'Avatar zapisany.', file: req.file.filename });
-});
+      h1 {
+        font-size: 22px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="panel">
+    <div class="header">
+      
+        <div class="avatar-wrapper" style="position: relative;">
+            <img id="avatarPreview" src="" alt="Twoja miniatura" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 2px solid #ccc;" />
+            
+            <label for="avatarInput" style="
+                position: absolute;
+                bottom: 0;
+                right: 0;
+                background: white;
+                border-radius: 50%;
+                width: 24px;
+                height: 24px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 16px;
+                cursor: pointer;
+                border: 1px solid #ccc;
+            ">📷</label>
+            
+            <input type="file" id="avatarInput" accept="image/*" style="display: none;" />
+          </div>
 
-app.listen(PORT, () => {
-  console.log(`✅ Serwer działa na http://localhost:${PORT}`);
-});
+
+
+
+
+
+
+
+      <div>
+        <h1>Witaj, <span id="userName">Klient</span></h1>
+        <div>Email: <span id="userEmail">adres@email.com</span></div>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <div class="tab active" data-tab="profile">Profil</div>
+      <div class="tab" data-tab="history">Historia</div>
+    </div>
+
+    <div class="section active" id="profile">
+        <label for="newPassword">Podaj nowe hasło:</label>
+<input type="password" id="newPassword" />
+
+<label for="confirmPassword">Powtórz hasło:</label>
+<input type="password" id="confirmPassword" />
+
+      <button id="saveChanges">Zapisz zmiany</button>
+    </div>
+
+    <div class="section" id="history">
+      <h3>Historia zakupów</h3>
+      <ul id="purchaseHistory">
+        <li>Brak zakupów</li>
+      </ul>
+    </div>
+
+    <button id="logoutButton" class="logout">Wyloguj się</button>
+
+    <div class="theme-toggle">
+      <button id="toggleTheme">Przełącz motyw</button>
+    </div>
+  </div>
+
+  <script src="panel.js"></script>
+</body>
+</html>
