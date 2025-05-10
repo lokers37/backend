@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
   emailDisplay.textContent = email;
   if (phoneDisplay) phoneDisplay.textContent = phone;
   avatarPreview.src = avatar
-    ? `http://localhost:3000/avatars/${avatar}`
+    ? `https://moj-backend-9e7n.onrender.com/avatars/${avatar}`
     : "https://via.placeholder.com/80?text=👤";
 
   // Obsługa awatara
@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
     formData.append("avatar", file);
     formData.append("email", email);
 
-    const response = await fetch("https://twoj-backend.onrender.com/avatar-upload", {
+    const response = await https://moj-backend-9e7n.onrender.com/avatar-upload", {
       method: "POST",
       body: formData
     });
@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const result = await response.json();
     if (response.ok && result.file) {
       localStorage.setItem("userAvatar", result.file);
-      avatarPreview.src = `fetch("https://twoj-backend.onrender.com/avatars/${result.file}`;
+      avatarPreview.src = `https://moj-backend-9e7n.onrender.com/avatars/${result.file}`;
     } else {
       alert("Błąd zapisu avatara.");
     }
@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    const response = await fetch("https://twoj-backend.onrender.com/change-password", {
+    const response = await https://moj-backend-9e7n.onrender.com/change-password", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, newPassword: newPass })
