@@ -8,7 +8,7 @@ document.getElementById("registerForm").addEventListener("submit", async functio
     const password = document.getElementById("password").value;
   
     try {
-      const res = await fetch("https://twoj-backend.onrender.com/register", {
+      const res = await https://moj-backend-9e7n.onrender.com/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, surname, phone, email, password })
