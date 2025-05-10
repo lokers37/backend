@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const result = await response.json();
     if (response.ok && result.file) {
       localStorage.setItem("userAvatar", result.file);
-      avatarPreview.src = `http://localhost:3000/avatars/${result.file}`;
+      avatarPreview.src = `fetch("https://twoj-backend.onrender.com/avatars/${result.file}`;
     } else {
       alert("Błąd zapisu avatara.");
     }
@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    const response = await fetch("http://localhost:3000/change-password", {
+    const response = await fetch("https://twoj-backend.onrender.com/change-password", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, newPassword: newPass })
