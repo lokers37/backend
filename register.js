@@ -4,11 +4,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const email = document.getElementById("email");
   const phone = document.getElementById("phone");
   const password = document.getElementById("password");
-  const message = document.getElementById("message");
   const button = document.getElementById("registerButton");
+  const message = document.getElementById("registerMessage");
 
   button.addEventListener("click", async () => {
-    const user = {
+    const data = {
       name: name.value.trim(),
       surname: surname.value.trim(),
       email: email.value.trim(),
@@ -17,34 +17,35 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     // Walidacja
-    if (!user.name || !user.surname || !user.email || !user.phone || !user.password) {
-      alert("Uzupełnij wszystkie pola.");
+    if (!data.name || !data.surname || !data.email || !data.phone || !data.password) {
+      message.textContent = "Uzupełnij wszystkie pola.";
+      message.style.color = "red";
       return;
     }
 
     try {
-      const response = await fetch("https://moj-backend-9e7n.onrender.com/register", {
+      const res = await fetch("https://moj-backend-9e7n.onrender.com/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(user)
+        body: JSON.stringify(data)
       });
 
-      const result = await response.json();
+      const result = await res.json();
 
-      if (response.ok) {
-        message.textContent = "Użytkownik zapisany. Możesz się teraz zalogować.";
+      if (res.ok) {
+        message.textContent = "Rejestracja zakończona sukcesem!";
         message.style.color = "green";
         setTimeout(() => {
           window.location.href = "index.html";
         }, 2000);
       } else {
-        message.textContent = result.error || "Wystąpił błąd.";
+        message.textContent = result.error || "Błąd rejestracji.";
         message.style.color = "red";
       }
     } catch (err) {
-      console.error(err);
       message.textContent = "Błąd połączenia z serwerem.";
       message.style.color = "red";
+      console.error(err);
     }
   });
 });
