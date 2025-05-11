@@ -5,64 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Rejestracja</title>
   <link rel="stylesheet" href="style2.css" />
-  <style>
-    .register-container {
-      max-width: 400px;
-      margin: 80px auto;
-      padding: 20px;
-      background-color: #f9f9f9;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-
-    .register-container h2 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    .register-container input {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 10px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-    }
-
-    .register-container button {
-      width: 100%;
-      padding: 10px;
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-
-    .register-container button:hover {
-      background-color: #45a049;
-    }
-
-    .back-link {
-      text-align: center;
-      margin-top: 10px;
-    }
-  </style>
 </head>
 <body>
-  <div class="register-container">
-    <h2>Załóż konto</h2>
-    <form id="registerForm">
-      <input type="text" id="name" placeholder="Imię" required><br>
-      <input type="text" id="surname" placeholder="Nazwisko" required><br>
-      <input type="text" id="phone" placeholder="Numer telefonu" required><br>
-      <input type="email" id="email" placeholder="E-mail" required><br>
-      <input type="password" id="password" placeholder="Hasło" required><br>
-      <button type="submit">Zarejestruj się</button>
-    </form>
+  <div class="container">
+    <h1>Załóż konto</h1>
+    <div class="form">
+      <input type="text" id="name" placeholder="Imię" autocomplete="given-name" required />
+      <input type="text" id="surname" placeholder="Nazwisko" autocomplete="family-name" required />
+      <input type="email" id="email" placeholder="E-mail" autocomplete="email" required />
+      <input type="tel" id="phone" placeholder="Telefon" autocomplete="tel" required />
+      <input type="password" id="password" placeholder="Hasło" autocomplete="new-password" required />
+
+      <button id="registerButton">Zarejestruj się</button>
+      <p id="message" style="margin-top: 10px; color: green;"></p>
+    </div>
   </div>
 
-  <!-- Ważne: poprawna ścieżka do właściwego pliku JS -->
   <script src="register.js"></script>
 </body>
 </html>
