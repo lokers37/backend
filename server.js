@@ -129,6 +129,6 @@ app.delete('/users/:email', (req, res) => {
 });
 
 // Start serwera
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => => {
   console.log(`✅ Serwer działa na http://localhost:${PORT}`);
 });
